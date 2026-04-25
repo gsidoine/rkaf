@@ -1,0 +1,26 @@
+bibentry(
+  bibtype = "Manual",
+  title = "rkaf: Kolmogorov-Arnold Fourier Networks in R",
+  author = c(
+    person("Guillaume", "Sidoine")
+  ),
+  year = "2026",
+  note = "R package version 0.0.0.9000",
+  url = "https://github.com/gsidoine/rkaf"
+)
+
+bibentry(
+  bibtype = "Misc",
+  title = "Kolmogorov-Arnold Fourier Networks",
+  author = c(
+    person("Jusheng", "Zhang"),
+    person("Yijia", "Fan"),
+    person("Kaitong", "Cai"),
+    person("Keze", "Wang")
+  ),
+  year = "2025",
+  eprint = "2502.06018",
+  archivePrefix = "arXiv",
+  primaryClass = "cs.LG",
+  url = "https://arxiv.org/abs/2502.06018"
+)

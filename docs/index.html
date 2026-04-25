@@ -40,6 +40,7 @@
 <li><a class="dropdown-item" href="articles/getting-started.html">Getting started with rkaf</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/gsidoine/rkaf/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -354,6 +355,23 @@
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>with full test coverage for the core API, including regression, binary classification, multiclass classification, formula handling, prediction, training utilities, and diagnostics.</p>
+</div>
+<div class="section level2">
+<h2 id="references-and-attribution">References and attribution<a class="anchor" aria-label="anchor" href="#references-and-attribution"></a>
+</h2>
+<p><code>rkaf</code> is an independent R implementation of Kolmogorov-Arnold Fourier Networks using the <code>torch</code> backend.</p>
+<p>The package is based on the KAF architecture proposed in:</p>
+<blockquote>
+<p>Zhang, J., Fan, Y., Cai, K., &amp; Wang, K. (2025).<br>
+Kolmogorov-Arnold Fourier Networks.<br>
+arXiv:2502.06018.</p>
+</blockquote>
+<p>The implementation was also informed by the public Python reference implementations:</p>
+<ul>
+<li><code>kolmogorovArnoldFourierNetwork/KAF</code></li>
+<li><code>kolmogorovArnoldFourierNetwork/kaf_act</code></li>
+</ul>
+<p>No Python dependency is required by <code>rkaf</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>

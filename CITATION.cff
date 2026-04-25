@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+title: "rkaf: Kolmogorov-Arnold Fourier Networks in R"
+message: "If you use rkaf, please cite both the rkaf package and the original KAF paper."
+type: software
+authors:
+  - family-names: Sidoine
+    given-names: Guillaume
+version: 0.0.0.9000
+license: MIT
+repository-code: "https://github.com/gsidoine/rkaf"
+url: "https://gsidoine.github.io/rkaf"
+abstract: >
+  rkaf provides an R implementation of Kolmogorov-Arnold Fourier Networks
+  using the torch backend, with support for regression, binary classification,
+  multiclass classification, formula interfaces, validation, early stopping,
+  standardization, and diagnostics.
+
+references:
+  - type: article
+    title: "Kolmogorov-Arnold Fourier Networks"
+    authors:
+      - family-names: Zhang
+        given-names: Jusheng
+      - family-names: Fan
+        given-names: Yijia
+      - family-names: Cai
+        given-names: Kaitong
+      - family-names: Wang
+        given-names: Keze
+    year: 2025
+    archive-prefix: arXiv
+    eprint: "2502.06018"
+    url: "https://arxiv.org/abs/2502.06018"
+
+  - type: software
+    title: "KAF: Kolmogorov-Arnold Fourier Networks"
+    authors:
+      - name: "kolmogorovArnoldFourierNetwork"
+    repository-code: "https://github.com/kolmogorovArnoldFourierNetwork/KAF"
+    url: "https://github.com/kolmogorovArnoldFourierNetwork/KAF"
+
+  - type: software
+    title: "kaf_act"
+    authors:
+      - name: "kolmogorovArnoldFourierNetwork"
+    repository-code: "https://github.com/kolmogorovArnoldFourierNetwork/kaf_act"
+    url: "https://github.com/kolmogorovArnoldFourierNetwork/kaf_act"
+    license: MIT

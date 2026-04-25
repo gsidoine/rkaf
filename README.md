@@ -355,6 +355,25 @@ with full test coverage for the core API, including regression, binary
 classification, multiclass classification, formula handling, prediction,
 training utilities, and diagnostics.
 
+## References and attribution
+
+`rkaf` is an independent R implementation of Kolmogorov-Arnold Fourier
+Networks using the `torch` backend.
+
+The package is based on the KAF architecture proposed in:
+
+> Zhang, J., Fan, Y., Cai, K., & Wang, K. (2025).  
+> Kolmogorov-Arnold Fourier Networks.  
+> arXiv:2502.06018.
+
+The implementation was also informed by the public Python reference
+implementations:
+
+- `kolmogorovArnoldFourierNetwork/KAF`
+- `kolmogorovArnoldFourierNetwork/kaf_act`
+
+No Python dependency is required by `rkaf`.
+
 ## License
 
 MIT.
