@@ -1,0 +1,39 @@
+url: https://gsidoine.github.io/rkaf/
+
+template:
+  bootstrap: 5
+
+home:
+  title: Kolmogorov-Arnold Fourier Networks in R
+  description: >
+    R implementation of Kolmogorov-Arnold Fourier Networks using torch.
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [github]
+
+reference:
+  - title: Model creation
+    contents:
+      - kaf
+      - nn_kaf
+      - nn_kaf_layer
+      - nn_random_fourier_features
+
+  - title: Model fitting and prediction
+    contents:
+      - kaf_fit
+      - kaf_fit_formula
+      - predict.kaf_fit
+
+  - title: Diagnostics
+    contents:
+      - extract_kaf_scales
+      - extract_fourier_params
+      - plot_kaf_scales
+
+  - title: Methods
+    contents:
+      - print.kaf_fit
+      - plot.kaf_fit

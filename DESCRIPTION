@@ -1,16 +1,33 @@
 Package: rkaf
-Title: What the Package Does (One Line, Title Case)
+Title: Kolmogorov-Arnold Fourier Networks in R
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person(
+      given = "Guillaume",
+      family = "Sidoine",
+      email = "gjh.sidoine@gmail.com",
+      role = c("aut", "cre")
+    )
+Description: Provides an R implementation of Kolmogorov-Arnold Fourier 
+    Networks using the torch backend. The package supports regression, binary 
+    classification, multiclass classification, formula and matrix interfaces, 
+    mini-batch training, validation splits, early stopping, standardization, 
+    best-model restoration, and KAF-specific diagnostics.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Suggests: 
-    ggplot2,
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
-Imports: 
+Depends:
+    R (>= 4.1.0)
+Imports:
+    stats,
+    graphics,
     torch
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    pkgdown
+Config/testthat/edition: 3
+URL: https://github.com/gsidoine/rkaf, https://gsidoine.github.io/rkaf
+BugReports: https://github.com/gsidoine/rkaf/issues

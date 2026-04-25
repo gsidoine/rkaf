@@ -1,0 +1,357 @@
+# rkaf
+
+`rkaf` is an R package for **Kolmogorov-Arnold Fourier Networks** using
+the [`torch`](https://torch.mlverse.org/) backend.
+
+The package provides a modern R interface for KAF models, including:
+
+- regression
+- binary classification
+- multiclass classification
+- formula and matrix interfaces
+- mini-batch training
+- validation splits
+- early stopping
+- automatic standardization
+- best-model restoration
+- KAF-specific diagnostics
+
+The goal of `rkaf` is to make KAF-style neural networks accessible to R
+users without requiring Python, `reticulate`, or custom training loops.
+
+## Installation
+
+You can install the development version locally with:
+
+``` r
+devtools::install()
+```
+
+Or from a local package directory:
+
+``` r
+devtools::load_all()
+```
+
+`rkaf` depends on `torch`. If `torch` is not already configured, run:
+
+``` r
+torch::install_torch()
+```
+
+## Basic regression example
+
+``` r
+library(rkaf)
+
+set.seed(123)
+torch::torch_manual_seed(123)
+
+x <- as.matrix(seq(-1, 1, length.out = 128))
+
+y <- sin(8 * pi * x) +
+  0.35 * cos(3 * pi * x) +
+  0.15 * x^2
+
+fit <- kaf_fit(
+  x = x,
+  y = y,
+  hidden = c(32, 32),
+  num_grids = 8,
+  use_layernorm = FALSE,
+  epochs = 100,
+  lr = 1e-3,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit
+#> <kaf_fit>
+#> Task:         regression
+#> Architecture: 1 -> 32 -> 32 -> 1
+#> Fourier grids: 8 
+#> Epochs:       100
+#> Batch size:   128
+#> Validation:   no
+#> Standardize x: yes 
+#> Standardize y: no 
+#> Final loss:   0.546906
+#> Best loss:    0.546906 at epoch 100
+```
+
+``` r
+pred <- predict(fit, x)
+
+plot(
+  x,
+  y,
+  type = "l",
+  lwd = 2,
+  xlab = "x",
+  ylab = "f(x)",
+  main = "KAF regression example"
+)
+
+lines(x, pred, lwd = 2, lty = 2)
+
+legend(
+  "topright",
+  legend = c("Observed", "Predicted"),
+  lty = c(1, 2),
+  lwd = 2,
+  bty = "n"
+)
+```
+
+![](reference/figures/README-regression-prediction-plot-1.png)
+
+## Formula interface
+
+`rkaf` also supports a formula interface for tabular data.
+
+``` r
+fit_mtcars <- kaf_fit_formula(
+  mpg ~ wt + hp + cyl,
+  data = mtcars,
+  hidden = c(16, 16),
+  num_grids = 8,
+  epochs = 50,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_mtcars
+#> <kaf_fit>
+#> Task:         regression
+#> Formula:      mpg ~ wt + hp + cyl
+#> Architecture: 3 -> 16 -> 16 -> 1
+#> Fourier grids: 8 
+#> Epochs:       50
+#> Batch size:   32
+#> Validation:   no
+#> Standardize x: yes 
+#> Standardize y: no 
+#> Final loss:   408.972
+#> Best loss:    408.972 at epoch 50
+```
+
+``` r
+head(predict(fit_mtcars, mtcars))
+#> [1] 0.7024449 0.7028257 0.6777840 0.7032931 0.8980367 0.7056480
+```
+
+## Binary classification
+
+For factor, character, or logical targets with two classes, `rkaf` can
+fit a binary classifier automatically.
+
+``` r
+df <- mtcars
+df$high_mpg <- factor(
+  ifelse(df$mpg > median(df$mpg), "yes", "no"),
+  levels = c("no", "yes")
+)
+
+fit_binary <- kaf_fit_formula(
+  high_mpg ~ wt + hp + cyl,
+  data = df,
+  hidden = c(16, 16),
+  num_grids = 8,
+  epochs = 50,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_binary
+#> <kaf_fit>
+#> Task:         binary
+#> Classes:      no, yes
+#> Formula:      high_mpg ~ wt + hp + cyl
+#> Architecture: 3 -> 16 -> 16 -> 1
+#> Fourier grids: 8 
+#> Epochs:       50
+#> Batch size:   32
+#> Validation:   no
+#> Standardize x: yes 
+#> Standardize y: no 
+#> Final loss:   0.571078
+#> Best loss:    0.571078 at epoch 50
+```
+
+Predicted probabilities:
+
+``` r
+head(predict(fit_binary, df, type = "prob"))
+#> [1] 0.5526212 0.5515673 0.5633891 0.5482979 0.4112424 0.5429556
+```
+
+Predicted classes:
+
+``` r
+head(predict(fit_binary, df, type = "class"))
+#> [1] yes yes yes yes no  yes
+#> Levels: no yes
+```
+
+## Multiclass classification
+
+For factor targets with more than two classes, `rkaf` fits a multiclass
+model.
+
+``` r
+fit_iris <- kaf_fit_formula(
+  Species ~ .,
+  data = iris,
+  hidden = c(16, 16),
+  num_grids = 8,
+  epochs = 50,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_iris
+#> <kaf_fit>
+#> Task:         multiclass
+#> Classes:      setosa, versicolor, virginica
+#> Formula:      Species ~ .
+#> Architecture: 4 -> 16 -> 16 -> 3
+#> Fourier grids: 8 
+#> Epochs:       50
+#> Batch size:   150
+#> Validation:   no
+#> Standardize x: yes 
+#> Standardize y: no 
+#> Final loss:   0.89159
+#> Best loss:    0.89159 at epoch 50
+```
+
+Class probabilities:
+
+``` r
+head(predict(fit_iris, iris, type = "prob"))
+#>         setosa versicolor virginica
+#> [1,] 0.4097730  0.3381031 0.2521239
+#> [2,] 0.3848806  0.3663312 0.2487882
+#> [3,] 0.3924690  0.3590669 0.2484642
+#> [4,] 0.3879960  0.3633747 0.2486294
+#> [5,] 0.4149875  0.3291803 0.2558322
+#> [6,] 0.4292243  0.3035112 0.2672646
+```
+
+Predicted classes:
+
+``` r
+head(predict(fit_iris, iris, type = "class"))
+#> [1] setosa setosa setosa setosa setosa setosa
+#> Levels: setosa versicolor virginica
+```
+
+## Validation and early stopping
+
+[`kaf_fit()`](https://gsidoine.github.io/rkaf/reference/kaf_fit.md)
+supports validation splits, mini-batching, and early stopping.
+
+``` r
+fit_val <- kaf_fit(
+  x = x,
+  y = y,
+  hidden = c(32, 32),
+  num_grids = 8,
+  use_layernorm = FALSE,
+  epochs = 300,
+  batch_size = 32,
+  validation_split = 0.2,
+  patience = 30,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_val
+#> <kaf_fit>
+#> Task:         regression
+#> Architecture: 1 -> 32 -> 32 -> 1
+#> Fourier grids: 8 
+#> Epochs:       31
+#> Batch size:   32
+#> Validation:   yes
+#> Standardize x: yes 
+#> Standardize y: no 
+#> Stopped at:   31
+#> Final loss:   0.506043
+#> Best loss:    0.734597 at epoch 1
+```
+
+``` r
+plot(fit_val)
+```
+
+![](reference/figures/README-validation-plot-1.png)
+
+## KAF diagnostics
+
+You can inspect the learned balance between the base/GELU branch and the
+Fourier branch.
+
+``` r
+scales <- extract_kaf_scales(fit)
+head(scales)
+#>   layer feature base_scale fourier_scale fourier_to_base_ratio
+#> 1     1       1  1.0433154  -0.016095886           0.015427632
+#> 2     2       1  0.9902081  -0.001549191           0.001564511
+#> 3     2       2  0.9539226  -0.068281367           0.071579569
+#> 4     2       3  1.0558288  -0.079756819           0.075539536
+#> 5     2       4  1.0121272   0.002981749           0.002946022
+#> 6     2       5  1.0045393  -0.034894414           0.034736735
+```
+
+``` r
+fourier_params <- extract_fourier_params(fit, layer = 1)
+head(fourier_params)
+#>   layer input_feature grid      weight      bias
+#> 1     1             1    1 -0.07232932 0.7514821
+#> 2     1             1    2  0.10994870 5.2063313
+#> 3     1             1    3 -0.26950592 2.4094820
+#> 4     1             1    4 -0.18167172 4.1540341
+#> 5     1             1    5 -0.93750620 5.3413358
+#> 6     1             1    6  0.14037049 3.7088466
+```
+
+``` r
+plot_kaf_scales(fit, layer = 1, type = "ratio")
+```
+
+![](reference/figures/README-diagnostics-plot-1.png)
+
+## Low-level torch interface
+
+Advanced users can directly create KAF torch modules.
+
+``` r
+model <- nn_kaf(
+  layers = c(4, 16, 16, 1),
+  num_grids = 8
+)
+
+x_tensor <- torch::torch_randn(10, 4)
+y_tensor <- model(x_tensor)
+
+y_tensor$shape
+#> [1] 10  1
+```
+
+## Current package status
+
+The package currently includes:
+
+``` r
+devtools::test()
+devtools::check()
+```
+
+with full test coverage for the core API, including regression, binary
+classification, multiclass classification, formula handling, prediction,
+training utilities, and diagnostics.
+
+## License
+
+MIT.
