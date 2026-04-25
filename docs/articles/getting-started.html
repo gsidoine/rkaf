@@ -5,16 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Kolmogorov-Arnold Fourier Networks in R • rkaf</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Kolmogorov-Arnold Fourier Networks in R">
-<meta name="description" content="R implementation of Kolmogorov-Arnold Fourier Networks using torch.
-">
-<meta property="og:description" content="R implementation of Kolmogorov-Arnold Fourier Networks using torch.
-">
+<title>Getting started with rkaf • rkaf</title>
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started with rkaf">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">rkaf</a>
+    <a class="navbar-brand me-2" href="../index.html">rkaf</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
@@ -33,11 +29,11 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/getting-started.html">Getting started with rkaf</a></li>
+<li><a class="dropdown-item" href="../articles/getting-started.html">Getting started with rkaf</a></li>
   </ul>
 </li>
       </ul>
@@ -48,13 +44,29 @@
 
 
   </div>
-</nav><div class="container template-home">
+</nav><div class="container template-article">
+
+
+
+
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="rkaf">rkaf<a class="anchor" aria-label="anchor" href="#rkaf"></a>
-</h1></div>
-<p><code>rkaf</code> is an R package for <strong>Kolmogorov-Arnold Fourier Networks</strong> using the <a href="https://torch.mlverse.org/" class="external-link"><code>torch</code></a> backend.</p>
-<p>The package provides a modern R interface for KAF models, including:</p>
+  <main id="main" class="col-md-9"><div class="page-header">
+
+      <h1>Getting started with rkaf</h1>
+            
+      
+      <small class="dont-index">Source: <a href="https://github.com/gsidoine/rkaf/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <div class="d-none name"><code>getting-started.Rmd</code></div>
+    </div>
+
+    
+    
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p><code>rkaf</code> provides Kolmogorov-Arnold Fourier Networks for R
+users through the <code>torch</code> backend.</p>
+<p>The package supports:</p>
 <ul>
 <li>regression</li>
 <li>binary classification</li>
@@ -67,42 +79,32 @@
 <li>best-model restoration</li>
 <li>KAF-specific diagnostics</li>
 </ul>
-<p>The goal of <code>rkaf</code> is to make KAF-style neural networks accessible to R users without requiring Python, <code>reticulate</code>, or custom training loops.</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install the development version locally with:</p>
+<p>This vignette gives a quick tour of the main workflow.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Or from a local package directory:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><code>rkaf</code> depends on <code>torch</code>. If <code>torch</code> is not already configured, run:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">torch</span><span class="fu">::</span><span class="fu"><a href="https://torch.mlverse.org/docs/reference/install_torch.html" class="external-link">install_torch</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="basic-regression-example">Basic regression example<a class="anchor" aria-label="anchor" href="#basic-regression-example"></a>
-</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gsidoine/rkaf" class="external-link">rkaf</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span><span class="fu">torch</span><span class="fu">::</span><span class="fu"><a href="https://torch.mlverse.org/docs/reference/torch_manual_seed.html" class="external-link">torch_manual_seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">128</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">torch</span><span class="fu">::</span><span class="fu"><a href="https://torch.mlverse.org/docs/reference/torch_manual_seed.html" class="external-link">torch_manual_seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="regression-with-the-matrix-interface">Regression with the matrix interface<a class="anchor" aria-label="anchor" href="#regression-with-the-matrix-interface"></a>
+</h2>
+<p>We first fit a KAF model to a synthetic one-dimensional function with
+both low-frequency and high-frequency structure.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">128</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">8</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fl">0.35</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">3</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fl">0.15</span> <span class="op">*</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
-<span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/kaf_fit.html">kaf_fit</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0.15</span> <span class="op">*</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kaf_fit.html">kaf_fit</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">y</span>,</span>
 <span>  hidden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">32</span><span class="op">)</span>,</span>
 <span>  num_grids <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>  use_layernorm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  epochs <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  epochs <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  lr <span class="op">=</span> <span class="fl">1e-3</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123</span></span>
@@ -113,24 +115,27 @@
 <span><span class="co">#&gt; Task:         regression</span></span>
 <span><span class="co">#&gt; Architecture: 1 -&gt; 32 -&gt; 32 -&gt; 1</span></span>
 <span><span class="co">#&gt; Fourier grids: 8 </span></span>
-<span><span class="co">#&gt; Epochs:       100</span></span>
+<span><span class="co">#&gt; Epochs:       50</span></span>
 <span><span class="co">#&gt; Batch size:   128</span></span>
 <span><span class="co">#&gt; Validation:   no</span></span>
 <span><span class="co">#&gt; Standardize x: yes </span></span>
 <span><span class="co">#&gt; Standardize y: no </span></span>
-<span><span class="co">#&gt; Final loss:   0.546906</span></span>
-<span><span class="co">#&gt; Best loss:    0.546906 at epoch 100</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; Final loss:   0.551274</span></span>
+<span><span class="co">#&gt; Best loss:    0.551274 at epoch 50</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.07747863 0.07733496 0.07718754 0.07703653 0.07688214 0.07672451</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">y</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"l"</span>,</span>
 <span>  lwd <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"x"</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="st">"f(x)"</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"KAF regression example"</span></span>
+<span>  main <span class="op">=</span> <span class="st">"KAF regression fit"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">pred</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -142,19 +147,20 @@
 <span>  lwd <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  bty <span class="op">=</span> <span class="st">"n"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-regression-prediction-plot-1.png" alt="" width="100%"></p>
+<p><img src="getting-started_files/figure-html/regression-plot-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
-<h2 id="formula-interface">Formula interface<a class="anchor" aria-label="anchor" href="#formula-interface"></a>
+<h2 id="regression-with-the-formula-interface">Regression with the formula interface<a class="anchor" aria-label="anchor" href="#regression-with-the-formula-interface"></a>
 </h2>
-<p><code>rkaf</code> also supports a formula interface for tabular data.</p>
+<p>For tabular data, <code>rkaf</code> also supports a formula
+interface.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit_mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">fit_mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
 <span>  <span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">cyl</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">mtcars</span>,</span>
 <span>  hidden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">16</span><span class="op">)</span>,</span>
 <span>  num_grids <span class="op">=</span> <span class="fl">8</span>,</span>
-<span>  epochs <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  epochs <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123</span></span>
 <span><span class="op">)</span></span>
@@ -165,34 +171,36 @@
 <span><span class="co">#&gt; Formula:      mpg ~ wt + hp + cyl</span></span>
 <span><span class="co">#&gt; Architecture: 3 -&gt; 16 -&gt; 16 -&gt; 1</span></span>
 <span><span class="co">#&gt; Fourier grids: 8 </span></span>
-<span><span class="co">#&gt; Epochs:       50</span></span>
+<span><span class="co">#&gt; Epochs:       30</span></span>
 <span><span class="co">#&gt; Batch size:   32</span></span>
 <span><span class="co">#&gt; Validation:   no</span></span>
 <span><span class="co">#&gt; Standardize x: yes </span></span>
 <span><span class="co">#&gt; Standardize y: no </span></span>
-<span><span class="co">#&gt; Final loss:   408.972</span></span>
-<span><span class="co">#&gt; Best loss:    408.972 at epoch 50</span></span></code></pre></div>
+<span><span class="co">#&gt; Final loss:   422.885</span></span>
+<span><span class="co">#&gt; Best loss:    422.885 at epoch 30</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_mtcars</span>, <span class="va">mtcars</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.7024449 0.7028257 0.6777840 0.7032931 0.8980367 0.7056480</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.3809827 0.3811775 0.3737252 0.3816426 0.4597940 0.3825346</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="binary-classification">Binary classification<a class="anchor" aria-label="anchor" href="#binary-classification"></a>
 </h2>
-<p>For factor, character, or logical targets with two classes, <code>rkaf</code> can fit a binary classifier automatically.</p>
+<p>If the response is a factor with two classes, <code>rkaf</code>
+automatically treats the problem as binary classification.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
+<span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">high_mpg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span>, <span class="st">"yes"</span>, <span class="st">"no"</span><span class="op">)</span>,</span>
 <span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fit_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
 <span>  <span class="va">high_mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">cyl</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df</span>,</span>
 <span>  hidden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">16</span><span class="op">)</span>,</span>
 <span>  num_grids <span class="op">=</span> <span class="fl">8</span>,</span>
-<span>  epochs <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  epochs <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123</span></span>
 <span><span class="op">)</span></span>
@@ -204,34 +212,39 @@
 <span><span class="co">#&gt; Formula:      high_mpg ~ wt + hp + cyl</span></span>
 <span><span class="co">#&gt; Architecture: 3 -&gt; 16 -&gt; 16 -&gt; 1</span></span>
 <span><span class="co">#&gt; Fourier grids: 8 </span></span>
-<span><span class="co">#&gt; Epochs:       50</span></span>
+<span><span class="co">#&gt; Epochs:       30</span></span>
 <span><span class="co">#&gt; Batch size:   32</span></span>
 <span><span class="co">#&gt; Validation:   no</span></span>
 <span><span class="co">#&gt; Standardize x: yes </span></span>
 <span><span class="co">#&gt; Standardize y: no </span></span>
-<span><span class="co">#&gt; Final loss:   0.571078</span></span>
-<span><span class="co">#&gt; Best loss:    0.571078 at epoch 50</span></span></code></pre></div>
+<span><span class="co">#&gt; Final loss:   0.65599</span></span>
+<span><span class="co">#&gt; Best loss:    0.65599 at epoch 30</span></span></code></pre></div>
 <p>Predicted probabilities:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_binary</span>, <span class="va">df</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.5526212 0.5515673 0.5633891 0.5482979 0.4112424 0.5429556</span></span></code></pre></div>
-<p>Predicted classes:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_binary</span>, <span class="va">df</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.5184059 0.5182427 0.5216382 0.5176905 0.4809578 0.5169316</span></span></code></pre></div>
+<p>Predicted classes:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_binary</span>, <span class="va">df</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] yes yes yes yes no  yes</span></span>
 <span><span class="co">#&gt; Levels: no yes</span></span></code></pre></div>
+<p>Raw logits:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_binary</span>, <span class="va">df</span>, type <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  0.07365695  0.07300325  0.08660667  0.07079174 -0.07620555  0.06775241</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="multiclass-classification">Multiclass classification<a class="anchor" aria-label="anchor" href="#multiclass-classification"></a>
 </h2>
-<p>For factor targets with more than two classes, <code>rkaf</code> fits a multiclass model.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit_iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
+<p>If the response is a factor with more than two classes,
+<code>rkaf</code> fits a multiclass classifier.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
 <span>  <span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">iris</span>,</span>
 <span>  hidden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">16</span><span class="op">)</span>,</span>
 <span>  num_grids <span class="op">=</span> <span class="fl">8</span>,</span>
-<span>  epochs <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  epochs <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123</span></span>
 <span><span class="op">)</span></span>
@@ -243,25 +256,25 @@
 <span><span class="co">#&gt; Formula:      Species ~ .</span></span>
 <span><span class="co">#&gt; Architecture: 4 -&gt; 16 -&gt; 16 -&gt; 3</span></span>
 <span><span class="co">#&gt; Fourier grids: 8 </span></span>
-<span><span class="co">#&gt; Epochs:       50</span></span>
+<span><span class="co">#&gt; Epochs:       30</span></span>
 <span><span class="co">#&gt; Batch size:   150</span></span>
 <span><span class="co">#&gt; Validation:   no</span></span>
 <span><span class="co">#&gt; Standardize x: yes </span></span>
 <span><span class="co">#&gt; Standardize y: no </span></span>
-<span><span class="co">#&gt; Final loss:   0.89159</span></span>
-<span><span class="co">#&gt; Best loss:    0.89159 at epoch 50</span></span></code></pre></div>
+<span><span class="co">#&gt; Final loss:   1.02193</span></span>
+<span><span class="co">#&gt; Best loss:    1.02193 at epoch 30</span></span></code></pre></div>
 <p>Class probabilities:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_iris</span>, <span class="va">iris</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         setosa versicolor virginica</span></span>
-<span><span class="co">#&gt; [1,] 0.4097730  0.3381031 0.2521239</span></span>
-<span><span class="co">#&gt; [2,] 0.3848806  0.3663312 0.2487882</span></span>
-<span><span class="co">#&gt; [3,] 0.3924690  0.3590669 0.2484642</span></span>
-<span><span class="co">#&gt; [4,] 0.3879960  0.3633747 0.2486294</span></span>
-<span><span class="co">#&gt; [5,] 0.4149875  0.3291803 0.2558322</span></span>
-<span><span class="co">#&gt; [6,] 0.4292243  0.3035112 0.2672646</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 0.3632379  0.3091893 0.3275728</span></span>
+<span><span class="co">#&gt; [2,] 0.3539485  0.3196656 0.3263858</span></span>
+<span><span class="co">#&gt; [3,] 0.3569639  0.3171074 0.3259288</span></span>
+<span><span class="co">#&gt; [4,] 0.3552666  0.3185946 0.3261388</span></span>
+<span><span class="co">#&gt; [5,] 0.3650522  0.3052385 0.3297093</span></span>
+<span><span class="co">#&gt; [6,] 0.3692743  0.2923885 0.3383373</span></span></code></pre></div>
 <p>Predicted classes:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_iris</span>, <span class="va">iris</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] setosa setosa setosa setosa setosa setosa</span></span>
 <span><span class="co">#&gt; Levels: setosa versicolor virginica</span></span></code></pre></div>
@@ -269,18 +282,19 @@
 <div class="section level2">
 <h2 id="validation-and-early-stopping">Validation and early stopping<a class="anchor" aria-label="anchor" href="#validation-and-early-stopping"></a>
 </h2>
-<p><code><a href="reference/kaf_fit.html">kaf_fit()</a></code> supports validation splits, mini-batching, and early stopping.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/kaf_fit.html">kaf_fit</a></span><span class="op">(</span></span>
+<p><code><a href="../reference/kaf_fit.html">kaf_fit()</a></code> supports validation splits, mini-batches, and
+early stopping.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kaf_fit.html">kaf_fit</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">y</span>,</span>
 <span>  hidden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">32</span><span class="op">)</span>,</span>
 <span>  num_grids <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>  use_layernorm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  epochs <span class="op">=</span> <span class="fl">300</span>,</span>
+<span>  epochs <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  batch_size <span class="op">=</span> <span class="fl">32</span>,</span>
 <span>  validation_split <span class="op">=</span> <span class="fl">0.2</span>,</span>
-<span>  patience <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  patience <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123</span></span>
 <span><span class="op">)</span></span>
@@ -290,52 +304,56 @@
 <span><span class="co">#&gt; Task:         regression</span></span>
 <span><span class="co">#&gt; Architecture: 1 -&gt; 32 -&gt; 32 -&gt; 1</span></span>
 <span><span class="co">#&gt; Fourier grids: 8 </span></span>
-<span><span class="co">#&gt; Epochs:       31</span></span>
+<span><span class="co">#&gt; Epochs:       21</span></span>
 <span><span class="co">#&gt; Batch size:   32</span></span>
 <span><span class="co">#&gt; Validation:   yes</span></span>
 <span><span class="co">#&gt; Standardize x: yes </span></span>
 <span><span class="co">#&gt; Standardize y: no </span></span>
-<span><span class="co">#&gt; Stopped at:   31</span></span>
-<span><span class="co">#&gt; Final loss:   0.506043</span></span>
+<span><span class="co">#&gt; Stopped at:   21</span></span>
+<span><span class="co">#&gt; Final loss:   0.462971</span></span>
 <span><span class="co">#&gt; Best loss:    0.734597 at epoch 1</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit_val</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-validation-plot-1.png" alt="" width="100%"></p>
+<p><img src="getting-started_files/figure-html/validation-plot-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="kaf-diagnostics">KAF diagnostics<a class="anchor" aria-label="anchor" href="#kaf-diagnostics"></a>
 </h2>
-<p>You can inspect the learned balance between the base/GELU branch and the Fourier branch.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">scales</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_kaf_scales.html">extract_kaf_scales</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<p>The KAF architecture contains a base/GELU branch and a Fourier
+branch. The package exposes helper functions to inspect the learned
+branch scales and Fourier parameters.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">scales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_kaf_scales.html">extract_kaf_scales</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   layer feature base_scale fourier_scale fourier_to_base_ratio</span></span>
-<span><span class="co">#&gt; 1     1       1  1.0433154  -0.016095886           0.015427632</span></span>
-<span><span class="co">#&gt; 2     2       1  0.9902081  -0.001549191           0.001564511</span></span>
-<span><span class="co">#&gt; 3     2       2  0.9539226  -0.068281367           0.071579569</span></span>
-<span><span class="co">#&gt; 4     2       3  1.0558288  -0.079756819           0.075539536</span></span>
-<span><span class="co">#&gt; 5     2       4  1.0121272   0.002981749           0.002946022</span></span>
-<span><span class="co">#&gt; 6     2       5  1.0045393  -0.034894414           0.034736735</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fourier_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_fourier_params.html">extract_fourier_params</a></span><span class="op">(</span><span class="va">fit</span>, layer <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 1     1       1  1.0166992  0.0102793416          0.0101105042</span></span>
+<span><span class="co">#&gt; 2     2       1  0.9869720 -0.0062871226          0.0063701125</span></span>
+<span><span class="co">#&gt; 3     2       2  0.9776204 -0.0185113791          0.0189351394</span></span>
+<span><span class="co">#&gt; 4     2       3  1.0219407 -0.0057307566          0.0056077192</span></span>
+<span><span class="co">#&gt; 5     2       4  1.0092107  0.0017849839          0.0017686930</span></span>
+<span><span class="co">#&gt; 6     2       5  1.0069300 -0.0009620219          0.0009554009</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fourier_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_fourier_params.html">extract_fourier_params</a></span><span class="op">(</span><span class="va">fit</span>, layer <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fourier_params</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   layer input_feature grid      weight      bias</span></span>
-<span><span class="co">#&gt; 1     1             1    1 -0.07232932 0.7514821</span></span>
-<span><span class="co">#&gt; 2     1             1    2  0.10994870 5.2063313</span></span>
-<span><span class="co">#&gt; 3     1             1    3 -0.26950592 2.4094820</span></span>
-<span><span class="co">#&gt; 4     1             1    4 -0.18167172 4.1540341</span></span>
-<span><span class="co">#&gt; 5     1             1    5 -0.93750620 5.3413358</span></span>
-<span><span class="co">#&gt; 6     1             1    6  0.14037049 3.7088466</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_kaf_scales.html">plot_kaf_scales</a></span><span class="op">(</span><span class="va">fit</span>, layer <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"ratio"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-diagnostics-plot-1.png" alt="" width="100%"></p>
+<span><span class="co">#&gt; 1     1             1    1 -0.09397911 0.7445387</span></span>
+<span><span class="co">#&gt; 2     1             1    2  0.08930250 5.1982489</span></span>
+<span><span class="co">#&gt; 3     1             1    3 -0.25914380 2.4016564</span></span>
+<span><span class="co">#&gt; 4     1             1    4 -0.20197357 4.1483722</span></span>
+<span><span class="co">#&gt; 5     1             1    5 -0.93132102 5.3289428</span></span>
+<span><span class="co">#&gt; 6     1             1    6  0.14571047 3.7227020</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_kaf_scales.html">plot_kaf_scales</a></span><span class="op">(</span><span class="va">fit</span>, layer <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"ratio"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/diagnostics-plot-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="low-level-torch-interface">Low-level torch interface<a class="anchor" aria-label="anchor" href="#low-level-torch-interface"></a>
 </h2>
-<p>Advanced users can directly create KAF torch modules.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nn_kaf.html">nn_kaf</a></span><span class="op">(</span></span>
+<p>Advanced users can use the low-level torch modules directly.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nn_kaf.html">nn_kaf</a></span><span class="op">(</span></span>
 <span>  layers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">16</span>, <span class="fl">16</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  num_grids <span class="op">=</span> <span class="fl">8</span></span>
 <span><span class="op">)</span></span>
@@ -347,55 +365,31 @@
 <span><span class="co">#&gt; [1] 10  1</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="current-package-status">Current package status<a class="anchor" aria-label="anchor" href="#current-package-status"></a>
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p>The package currently includes:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">check</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>with full test coverage for the core API, including regression, binary classification, multiclass classification, formula handling, prediction, training utilities, and diagnostics.</p>
+<p>The standard workflow is:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kaf_fit_formula.html">kaf_fit_formula</a></span><span class="op">(</span></span>
+<span>  <span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df</span>,</span>
+<span>  hidden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">64</span>, <span class="fl">64</span><span class="op">)</span>,</span>
+<span>  num_grids <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  validation_split <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  patience <span class="op">=</span> <span class="fl">30</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">newdata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/extract_kaf_scales.html">extract_kaf_scales</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
+<p>For classification, use:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">newdata</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">newdata</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
-</h2>
-<p>MIT.</p>
-</div>
-</div>
-  </main><aside class="col-md-3"><div class="links">
-<h2 data-toc-skip>Links</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/gsidoine/rkaf/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/gsidoine/rkaf/issues" class="external-link">Report a bug</a></li>
-</ul>
-</div>
-
-<div class="license">
-<h2 data-toc-skip>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
-
-<div class="citation">
-<h2 data-toc-skip>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing rkaf</a></li>
-</ul>
-</div>
-
-<div class="developers">
-<h2 data-toc-skip>Developers</h2>
-<ul class="list-unstyled">
-<li>Guillaume Sidoine <br><small class="roles"> Author, maintainer </small>   </li>
-</ul>
-</div>
-
-
-
-  </aside>
-</div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -394,3 +394,9 @@ MIT.
 - [`plot(`*`<kaf_fit>`*`)`](https://gsidoine.github.io/rkaf/reference/plot.kaf_fit.md)
   : Plot a fitted KAF model
 
+# Articles
+
+### All vignettes
+
+- [Getting started with
+  rkaf](https://gsidoine.github.io/rkaf/articles/getting-started.md):
