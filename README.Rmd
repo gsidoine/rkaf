@@ -1,0 +1,277 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# rkaf
+
+`rkaf` is an R package for **Kolmogorov-Arnold Fourier Networks** using
+the [`torch`](https://torch.mlverse.org/) backend.
+
+The package provides a modern R interface for KAF models, including:
+
+- regression
+- binary classification
+- multiclass classification
+- formula and matrix interfaces
+- mini-batch training
+- validation splits
+- early stopping
+- automatic standardization
+- best-model restoration
+- KAF-specific diagnostics
+
+The goal of `rkaf` is to make KAF-style neural networks accessible to R users
+without requiring Python, `reticulate`, or custom training loops.
+
+## Installation
+
+You can install the development version locally with:
+
+```r
+devtools::install()
+```
+
+Or from a local package directory:
+
+```r
+devtools::load_all()
+```
+
+`rkaf` depends on `torch`. If `torch` is not already configured, run:
+
+```r
+torch::install_torch()
+```
+
+## Basic regression example
+
+```{r regression-example}
+library(rkaf)
+
+set.seed(123)
+torch::torch_manual_seed(123)
+
+x <- as.matrix(seq(-1, 1, length.out = 128))
+
+y <- sin(8 * pi * x) +
+  0.35 * cos(3 * pi * x) +
+  0.15 * x^2
+
+fit <- kaf_fit(
+  x = x,
+  y = y,
+  hidden = c(32, 32),
+  num_grids = 8,
+  use_layernorm = FALSE,
+  epochs = 100,
+  lr = 1e-3,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit
+```
+
+```{r regression-prediction-plot}
+pred <- predict(fit, x)
+
+plot(
+  x,
+  y,
+  type = "l",
+  lwd = 2,
+  xlab = "x",
+  ylab = "f(x)",
+  main = "KAF regression example"
+)
+
+lines(x, pred, lwd = 2, lty = 2)
+
+legend(
+  "topright",
+  legend = c("Observed", "Predicted"),
+  lty = c(1, 2),
+  lwd = 2,
+  bty = "n"
+)
+```
+
+## Formula interface
+
+`rkaf` also supports a formula interface for tabular data.
+
+```{r formula-regression}
+fit_mtcars <- kaf_fit_formula(
+  mpg ~ wt + hp + cyl,
+  data = mtcars,
+  hidden = c(16, 16),
+  num_grids = 8,
+  epochs = 50,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_mtcars
+```
+
+```{r formula-regression-predict}
+head(predict(fit_mtcars, mtcars))
+```
+
+## Binary classification
+
+For factor, character, or logical targets with two classes, `rkaf` can fit a
+binary classifier automatically.
+
+```{r binary-classification}
+df <- mtcars
+df$high_mpg <- factor(
+  ifelse(df$mpg > median(df$mpg), "yes", "no"),
+  levels = c("no", "yes")
+)
+
+fit_binary <- kaf_fit_formula(
+  high_mpg ~ wt + hp + cyl,
+  data = df,
+  hidden = c(16, 16),
+  num_grids = 8,
+  epochs = 50,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_binary
+```
+
+Predicted probabilities:
+
+```{r binary-prob}
+head(predict(fit_binary, df, type = "prob"))
+```
+
+Predicted classes:
+
+```{r binary-class}
+head(predict(fit_binary, df, type = "class"))
+```
+
+## Multiclass classification
+
+For factor targets with more than two classes, `rkaf` fits a multiclass model.
+
+```{r multiclass-classification}
+fit_iris <- kaf_fit_formula(
+  Species ~ .,
+  data = iris,
+  hidden = c(16, 16),
+  num_grids = 8,
+  epochs = 50,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_iris
+```
+
+Class probabilities:
+
+```{r multiclass-prob}
+head(predict(fit_iris, iris, type = "prob"))
+```
+
+Predicted classes:
+
+```{r multiclass-class}
+head(predict(fit_iris, iris, type = "class"))
+```
+
+## Validation and early stopping
+
+`kaf_fit()` supports validation splits, mini-batching, and early stopping.
+
+```{r validation-example}
+fit_val <- kaf_fit(
+  x = x,
+  y = y,
+  hidden = c(32, 32),
+  num_grids = 8,
+  use_layernorm = FALSE,
+  epochs = 300,
+  batch_size = 32,
+  validation_split = 0.2,
+  patience = 30,
+  verbose = FALSE,
+  seed = 123
+)
+
+fit_val
+```
+
+```{r validation-plot}
+plot(fit_val)
+```
+
+## KAF diagnostics
+
+You can inspect the learned balance between the base/GELU branch and the
+Fourier branch.
+
+```{r diagnostics-scales}
+scales <- extract_kaf_scales(fit)
+head(scales)
+```
+
+```{r diagnostics-fourier}
+fourier_params <- extract_fourier_params(fit, layer = 1)
+head(fourier_params)
+```
+
+```{r diagnostics-plot}
+plot_kaf_scales(fit, layer = 1, type = "ratio")
+```
+
+## Low-level torch interface
+
+Advanced users can directly create KAF torch modules.
+
+```{r low-level-interface}
+model <- nn_kaf(
+  layers = c(4, 16, 16, 1),
+  num_grids = 8
+)
+
+x_tensor <- torch::torch_randn(10, 4)
+y_tensor <- model(x_tensor)
+
+y_tensor$shape
+```
+
+## Current package status
+
+The package currently includes:
+
+```r
+devtools::test()
+devtools::check()
+```
+
+with full test coverage for the core API, including regression, binary
+classification, multiclass classification, formula handling, prediction,
+training utilities, and diagnostics.
+
+## License
+
+MIT.
