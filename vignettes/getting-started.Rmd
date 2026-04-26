@@ -60,11 +60,15 @@ y <- sin(8 * pi * x) +
 fit <- kaf_fit(
   x = x,
   y = y,
-  hidden = c(32, 32),
-  num_grids = 8,
+  hidden = c(256, 256),
+  num_grids = 32,
   use_layernorm = FALSE,
-  epochs = 50,
+  epochs = 1000,
   lr = 1e-3,
+  standardize_x = FALSE,
+  standardize_y = TRUE,
+  fourier_init_scale = 5e-2,
+  restore_best = TRUE,
   verbose = FALSE,
   seed = 123
 )
@@ -75,7 +79,10 @@ fit
 ```{r regression-predict}
 pred <- predict(fit, x)
 
-head(pred)
+head(data.frame(
+  observed = round(as.numeric(y), 3),
+  predicted = round(pred, 3)
+))
 ```
 
 ```{r regression-plot, fig.width=7, fig.height=4}
@@ -108,9 +115,9 @@ For tabular data, `rkaf` also supports a formula interface.
 fit_mtcars <- kaf_fit_formula(
   mpg ~ wt + hp + cyl,
   data = mtcars,
-  hidden = c(16, 16),
-  num_grids = 8,
-  epochs = 30,
+  hidden = c(32, 32),
+  num_grids = 16,
+  epochs = 200,
   verbose = FALSE,
   seed = 123
 )
@@ -119,7 +126,12 @@ fit_mtcars
 ```
 
 ```{r formula-predict}
-head(predict(fit_mtcars, mtcars))
+mtcars_pred <- predict(fit_mtcars, mtcars)
+
+head(data.frame(
+  observed = mtcars$mpg,
+  predicted = round(mtcars_pred, 2)
+))
 ```
 
 # Binary classification
@@ -140,9 +152,9 @@ df$high_mpg <- factor(
 fit_binary <- kaf_fit_formula(
   high_mpg ~ wt + hp + cyl,
   data = df,
-  hidden = c(16, 16),
-  num_grids = 8,
-  epochs = 30,
+  hidden = c(32, 32),
+  num_grids = 16,
+  epochs = 200,
   verbose = FALSE,
   seed = 123
 )
@@ -150,16 +162,26 @@ fit_binary <- kaf_fit_formula(
 fit_binary
 ```
 
-Predicted probabilities:
+Predicted probabilities and classes:
 
 ```{r binary-prob}
-head(predict(fit_binary, df, type = "prob"))
+prob_binary <- predict(fit_binary, df, type = "prob")
+class_binary <- predict(fit_binary, df, type = "class")
+
+head(data.frame(
+  observed = df$high_mpg,
+  prob_yes = round(prob_binary, 3),
+  predicted = class_binary
+))
 ```
 
-Predicted classes:
+Confusion matrix
 
-```{r binary-class}
-head(predict(fit_binary, df, type = "class"))
+```{r binary-confusion-matrix}
+table(
+  observed = df$high_mpg,
+  predicted = class_binary
+)
 ```
 
 Raw logits:
@@ -177,9 +199,9 @@ classifier.
 fit_iris <- kaf_fit_formula(
   Species ~ .,
   data = iris,
-  hidden = c(16, 16),
-  num_grids = 8,
-  epochs = 30,
+  hidden = c(32, 32),
+  num_grids = 16,
+  epochs = 300,
   verbose = FALSE,
   seed = 123
 )
@@ -187,43 +209,50 @@ fit_iris <- kaf_fit_formula(
 fit_iris
 ```
 
+Confusion matrix
+
+```{r multiclass-confusion-matrix}
+class_iris <- predict(fit_iris, iris, type = "class")
+
+table(
+  observed = iris$Species,
+  predicted = class_iris
+)
+```
+
 Class probabilities:
 
 ```{r multiclass-prob}
-head(predict(fit_iris, iris, type = "prob"))
-```
-
-Predicted classes:
-
-```{r multiclass-class}
-head(predict(fit_iris, iris, type = "class"))
+head(round(predict(fit_iris, iris, type = "prob"), 3))
 ```
 
 # Validation and early stopping
 
 `kaf_fit()` supports validation splits, mini-batches, and early stopping.
 
-```{r validation-fit}
+```{r validation-fit, eval=FALSE}
 fit_val <- kaf_fit(
   x = x,
   y = y,
-  hidden = c(32, 32),
-  num_grids = 8,
+  hidden = c(64, 64),
+  num_grids = 16,
   use_layernorm = FALSE,
-  epochs = 100,
-  batch_size = 32,
+  epochs = 300,
+  lr = 5e-4,
+  batch_size = 64,
   validation_split = 0.2,
-  patience = 20,
+  patience = 100,
+  restore_best = TRUE,
   verbose = FALSE,
   seed = 123
 )
 
-fit_val
-```
-
-```{r validation-plot, fig.width=7, fig.height=4}
 plot(fit_val)
 ```
+
+The fitted object stores both `train_loss_history` and
+`validation_loss_history`, so users can inspect training and validation behavior
+directly.
 
 # KAF diagnostics
 
@@ -241,10 +270,6 @@ head(scales)
 fourier_params <- extract_fourier_params(fit, layer = 1)
 
 head(fourier_params)
-```
-
-```{r diagnostics-plot, fig.width=7, fig.height=4}
-plot_kaf_scales(fit, layer = 1, type = "ratio")
 ```
 
 # Low-level torch interface

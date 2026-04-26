@@ -33,7 +33,7 @@ Useful links:
 
 - <https://github.com/gsidoine/rkaf>
 
-- <https://gsidoine.github.io/rkaf>
+- <https://gsidoine.github.io/rkaf/>
 
 - Report bugs at <https://github.com/gsidoine/rkaf/issues>
 
