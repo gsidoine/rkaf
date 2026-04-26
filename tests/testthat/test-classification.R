@@ -1,4 +1,5 @@
 test_that("kaf_fit() supports binary classification with factor targets", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 80), ncol = 1)
@@ -38,6 +39,7 @@ test_that("kaf_fit() supports binary classification with factor targets", {
 
 
 test_that("kaf_fit() supports multiclass classification with factor targets", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- cbind(
@@ -80,6 +82,7 @@ test_that("kaf_fit() supports multiclass classification with factor targets", {
 
 
 test_that("kaf_fit() auto-detects factor targets as classification", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 60), ncol = 1)
@@ -100,6 +103,7 @@ test_that("kaf_fit() auto-detects factor targets as classification", {
 
 
 test_that("kaf_fit() rejects standardize_y for classification", {
+  skip_if_no_torch()
   x <- matrix(seq(-1, 1, length.out = 20), ncol = 1)
   y <- factor(ifelse(x[, 1] > 0, "yes", "no"))
 
@@ -119,6 +123,7 @@ test_that("kaf_fit() rejects standardize_y for classification", {
 
 
 test_that("formula interface supports binary classification", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   df <- data.frame(
@@ -148,6 +153,7 @@ test_that("formula interface supports binary classification", {
 
 
 test_that("formula interface supports multiclass classification", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   df <- data.frame(
@@ -176,6 +182,7 @@ test_that("formula interface supports multiclass classification", {
 })
 
 test_that("kaf_fit() supports multiclass classification with validation split", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- cbind(

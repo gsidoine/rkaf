@@ -1,4 +1,5 @@
 test_that("KAF layer returns expected output shape", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   layer <- nn_kaf_layer(
@@ -15,6 +16,7 @@ test_that("KAF layer returns expected output shape", {
 
 
 test_that("KAF layer supports backpropagation through both branches", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   layer <- nn_kaf_layer(
@@ -37,6 +39,7 @@ test_that("KAF layer supports backpropagation through both branches", {
 
 
 test_that("KAF layer rejects invalid dropout values", {
+  skip_if_no_torch()
   expect_error(
     nn_kaf_layer(
       input_dim = 4,

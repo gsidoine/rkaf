@@ -1,4 +1,5 @@
 test_that("stacked KAF network returns expected output shape", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- nn_kaf(
@@ -14,6 +15,7 @@ test_that("stacked KAF network returns expected output shape", {
 
 
 test_that("stacked KAF network supports backpropagation", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- nn_kaf(
@@ -34,6 +36,7 @@ test_that("stacked KAF network supports backpropagation", {
 
 
 test_that("stacked KAF network rejects invalid layer specifications", {
+  skip_if_no_torch()
   expect_error(
     nn_kaf(layers = c(4)),
     "`layers` must be a numeric vector with at least two entries"

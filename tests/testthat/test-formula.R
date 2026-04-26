@@ -1,4 +1,5 @@
 test_that("kaf_fit_formula() fits a numeric regression formula", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   df <- data.frame(
@@ -26,6 +27,7 @@ test_that("kaf_fit_formula() fits a numeric regression formula", {
 
 
 test_that("predict() works with formula-based KAF fits and data frames", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   df <- data.frame(
@@ -53,6 +55,7 @@ test_that("predict() works with formula-based KAF fits and data frames", {
 
 
 test_that("kaf_fit_formula() supports factor predictors", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   df <- data.frame(
@@ -81,6 +84,7 @@ test_that("kaf_fit_formula() supports factor predictors", {
 
 
 test_that("kaf_fit_formula() auto-detects factor targets as classification", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   df <- data.frame(

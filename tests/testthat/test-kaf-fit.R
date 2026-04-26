@@ -1,4 +1,5 @@
 test_that("kaf() creates a model with the expected output shape", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- kaf(
@@ -16,6 +17,7 @@ test_that("kaf() creates a model with the expected output shape", {
 
 
 test_that("kaf_fit() returns a fitted KAF object", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 32), ncol = 1)
@@ -41,6 +43,7 @@ test_that("kaf_fit() returns a fitted KAF object", {
 
 
 test_that("predict.kaf_fit() returns numeric predictions", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 32), ncol = 1)
@@ -66,6 +69,7 @@ test_that("predict.kaf_fit() returns numeric predictions", {
 
 
 test_that("predict.kaf_fit() can return a tensor", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 32), ncol = 1)
@@ -91,6 +95,7 @@ test_that("predict.kaf_fit() can return a tensor", {
 
 
 test_that("predict.kaf_fit() rejects wrong feature dimensions", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(rnorm(40), ncol = 2)
@@ -115,6 +120,7 @@ test_that("predict.kaf_fit() rejects wrong feature dimensions", {
 })
 
 test_that("kaf_fit() tracks best loss and best epoch", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 32), ncol = 1)
@@ -143,6 +149,7 @@ test_that("kaf_fit() tracks best loss and best epoch", {
 })
 
 test_that("kaf_fit() supports mini-batch training", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 64), ncol = 1)
@@ -169,6 +176,7 @@ test_that("kaf_fit() supports mini-batch training", {
 
 
 test_that("kaf_fit() supports validation split", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 64), ncol = 1)
@@ -195,6 +203,7 @@ test_that("kaf_fit() supports validation split", {
 
 
 test_that("kaf_fit() supports explicit validation data", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 64), ncol = 1)
@@ -226,6 +235,7 @@ test_that("kaf_fit() supports explicit validation data", {
 
 
 test_that("kaf_fit() rejects incomplete explicit validation data", {
+  skip_if_no_torch()
   x <- matrix(seq(-1, 1, length.out = 32), ncol = 1)
   y <- sin(2 * pi * x)
 
@@ -244,6 +254,7 @@ test_that("kaf_fit() rejects incomplete explicit validation data", {
 
 
 test_that("kaf_fit() supports early stopping", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 64), ncol = 1)
@@ -270,6 +281,7 @@ test_that("kaf_fit() supports early stopping", {
 })
 
 test_that("kaf_fit() stores predictor standardization parameters", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- cbind(
@@ -298,6 +310,7 @@ test_that("kaf_fit() stores predictor standardization parameters", {
 
 
 test_that("kaf_fit() can disable predictor standardization", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 40), ncol = 1)
@@ -320,6 +333,7 @@ test_that("kaf_fit() can disable predictor standardization", {
 
 
 test_that("kaf_fit() supports target standardization and inverse prediction", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 50), ncol = 1)
@@ -353,6 +367,7 @@ test_that("kaf_fit() supports target standardization and inverse prediction", {
 
 
 test_that("predict.kaf_fit() returns unstandardized tensor predictions when requested", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 50), ncol = 1)
@@ -377,6 +392,7 @@ test_that("predict.kaf_fit() returns unstandardized tensor predictions when requ
 })
 
 test_that("kaf_fit() standardizes regression targets by default", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   x <- matrix(seq(-1, 1, length.out = 40), ncol = 1)

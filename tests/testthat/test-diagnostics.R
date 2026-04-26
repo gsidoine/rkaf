@@ -1,4 +1,5 @@
 test_that("extract_kaf_scales() returns expected columns", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- nn_kaf(
@@ -22,6 +23,7 @@ test_that("extract_kaf_scales() returns expected columns", {
 
 
 test_that("extract_fourier_params() returns expected columns", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- nn_kaf(
@@ -46,6 +48,7 @@ test_that("extract_fourier_params() returns expected columns", {
 
 
 test_that("extract_fourier_params() rejects invalid layer", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- nn_kaf(
@@ -61,6 +64,7 @@ test_that("extract_fourier_params() rejects invalid layer", {
 
 
 test_that("plot_kaf_scales() invisibly returns scale data", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   model <- nn_kaf(

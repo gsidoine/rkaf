@@ -1,4 +1,5 @@
 test_that("random Fourier features preserve batch size and input dimension", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   layer <- nn_random_fourier_features(
@@ -14,6 +15,7 @@ test_that("random Fourier features preserve batch size and input dimension", {
 
 
 test_that("random Fourier features support backpropagation", {
+  skip_if_no_torch()
   torch::torch_manual_seed(123)
 
   layer <- nn_random_fourier_features(

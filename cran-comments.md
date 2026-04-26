@@ -14,4 +14,8 @@ This is the initial CRAN submission of rkaf.
 
 ## Notes
 
-rkaf uses the torch package as its neural network backend.
+## Notes
+
+rkaf uses the torch package as its neural network backend. Tests and vignette
+code that require the torch backend are skipped when the LibTorch/Lantern
+runtime is unavailable in the check environment.

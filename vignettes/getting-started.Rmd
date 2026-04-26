@@ -14,6 +14,23 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE
 )
+
+rkaf_torch_available <- tryCatch(
+  {
+    torch::torch_manual_seed(123)
+    invisible(torch::torch_tensor(0))
+    TRUE
+  },
+  error = function(e) FALSE
+)
+
+knitr::opts_chunk$set(eval = rkaf_torch_available)
+```
+
+```{r torch-unavailable, echo = FALSE, eval = !rkaf_torch_available}
+knitr::asis_output(
+  "> Torch/Lantern is not available in this build environment, so the code chunks are shown but not executed."
+)
 ```
 
 # Overview
