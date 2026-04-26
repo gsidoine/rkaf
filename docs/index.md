@@ -314,12 +314,14 @@ fit_val <- kaf_fit(
   seed = 123
 )
 
-plot(fit_val)
+fit_val$train_loss_history
+fit_val$validation_loss_history
 ```
 
 The fitted object stores both training and validation loss histories, so
 users can inspect them directly through `fit_val$train_loss_history` and
-`fit_val$validation_loss_history`.
+`fit_val$validation_loss_history`. The code above is shown as an example
+and is not run when building this README.
 
 ## KAF diagnostics
 
