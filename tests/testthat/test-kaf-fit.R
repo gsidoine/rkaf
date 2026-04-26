@@ -375,3 +375,32 @@ test_that("predict.kaf_fit() returns unstandardized tensor predictions when requ
   expect_true(inherits(pred, "torch_tensor"))
   expect_equal(as.integer(pred$shape), c(50L, 1L))
 })
+
+test_that("kaf_fit() standardizes regression targets by default", {
+  torch::torch_manual_seed(123)
+
+  x <- matrix(seq(-1, 1, length.out = 40), ncol = 1)
+  y <- 100 + 50 * sin(2 * pi * x)
+
+  fit <- kaf_fit(
+    x = x,
+    y = y,
+    hidden = c(8),
+    num_grids = 4,
+    epochs = 5,
+    verbose = FALSE,
+    seed = 123
+  )
+
+  expect_s3_class(fit, "kaf_fit")
+  expect_true(isTRUE(fit$standardize_y))
+  expect_false(is.null(fit$y_standardizer))
+
+  pred <- predict(fit, x)
+
+  expect_type(pred, "double")
+  expect_equal(length(pred), nrow(x))
+
+  # Predictions should be returned on the original target scale.
+  expect_true(mean(pred) > 10)
+})

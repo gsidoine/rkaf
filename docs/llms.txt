@@ -56,11 +56,15 @@ y <- sin(8 * pi * x) +
 fit <- kaf_fit(
   x = x,
   y = y,
-  hidden = c(32, 32),
-  num_grids = 8,
+  hidden = c(256, 256),
+  num_grids = 32,
   use_layernorm = FALSE,
-  epochs = 100,
+  epochs = 1000,
   lr = 1e-3,
+  standardize_x = FALSE,
+  standardize_y = TRUE,
+  fourier_init_scale = 5e-2,
+  restore_best = TRUE,
   verbose = FALSE,
   seed = 123
 )
@@ -68,15 +72,15 @@ fit <- kaf_fit(
 fit
 #> <kaf_fit>
 #> Task:         regression
-#> Architecture: 1 -> 32 -> 32 -> 1
-#> Fourier grids: 8 
-#> Epochs:       100
+#> Architecture: 1 -> 256 -> 256 -> 1
+#> Fourier grids: 32 
+#> Epochs:       1000
 #> Batch size:   128
 #> Validation:   no
-#> Standardize x: yes 
-#> Standardize y: no 
-#> Final loss:   0.546906
-#> Best loss:    0.546906 at epoch 100
+#> Standardize x: no 
+#> Standardize y: yes 
+#> Final train loss: 0.0227977
+#> Best train loss:  0.0198582 at epoch 945
 ```
 
 ``` r
@@ -105,6 +109,15 @@ legend(
 
 ![](reference/figures/README-regression-prediction-plot-1.png)
 
+``` r
+plot(fit)
+```
+
+![](reference/figures/README-regression-loss-plot-1.png)
+
+This example intentionally uses a Fourier-heavy target function to
+demonstrate the model’s ability to learn oscillatory structure.
+
 ## Formula interface
 
 `rkaf` also supports a formula interface for tabular data.
@@ -113,9 +126,9 @@ legend(
 fit_mtcars <- kaf_fit_formula(
   mpg ~ wt + hp + cyl,
   data = mtcars,
-  hidden = c(16, 16),
-  num_grids = 8,
-  epochs = 50,
+  hidden = c(32, 32),
+  num_grids = 16,
+  epochs = 200,
   verbose = FALSE,
   seed = 123
 )
@@ -124,20 +137,31 @@ fit_mtcars
 #> <kaf_fit>
 #> Task:         regression
 #> Formula:      mpg ~ wt + hp + cyl
-#> Architecture: 3 -> 16 -> 16 -> 1
-#> Fourier grids: 8 
-#> Epochs:       50
+#> Architecture: 3 -> 32 -> 32 -> 1
+#> Fourier grids: 16 
+#> Epochs:       200
 #> Batch size:   32
 #> Validation:   no
 #> Standardize x: yes 
-#> Standardize y: no 
-#> Final loss:   408.972
-#> Best loss:    408.972 at epoch 50
+#> Standardize y: yes 
+#> Final train loss: 0.0542788
+#> Best train loss:  0.0542788 at epoch 200
 ```
 
 ``` r
-head(predict(fit_mtcars, mtcars))
-#> [1] 0.7024449 0.7028257 0.6777840 0.7032931 0.8980367 0.7056480
+mtcars_pred <- predict(fit_mtcars, mtcars)
+
+head(data.frame(
+  observed = mtcars$mpg,
+  predicted = round(mtcars_pred, 2)
+))
+#>   observed predicted
+#> 1     21.0     21.16
+#> 2     21.0     21.15
+#> 3     22.8     21.86
+#> 4     21.4     20.03
+#> 5     18.7     16.58
+#> 6     18.1     18.30
 ```
 
 ## Binary classification
@@ -155,9 +179,9 @@ df$high_mpg <- factor(
 fit_binary <- kaf_fit_formula(
   high_mpg ~ wt + hp + cyl,
   data = df,
-  hidden = c(16, 16),
-  num_grids = 8,
-  epochs = 50,
+  hidden = c(32, 32),
+  num_grids = 16,
+  epochs = 200,
   verbose = FALSE,
   seed = 123
 )
@@ -167,30 +191,44 @@ fit_binary
 #> Task:         binary
 #> Classes:      no, yes
 #> Formula:      high_mpg ~ wt + hp + cyl
-#> Architecture: 3 -> 16 -> 16 -> 1
-#> Fourier grids: 8 
-#> Epochs:       50
+#> Architecture: 3 -> 32 -> 32 -> 1
+#> Fourier grids: 16 
+#> Epochs:       200
 #> Batch size:   32
 #> Validation:   no
 #> Standardize x: yes 
 #> Standardize y: no 
-#> Final loss:   0.571078
-#> Best loss:    0.571078 at epoch 50
+#> Final train loss: 0.00163561
+#> Best train loss:  0.00163561 at epoch 200
 ```
 
-Predicted probabilities:
+Predicted probabilities and class:
 
 ``` r
-head(predict(fit_binary, df, type = "prob"))
-#> [1] 0.5526212 0.5515673 0.5633891 0.5482979 0.4112424 0.5429556
-```
+prob_binary <- predict(fit_binary, df, type = "prob")
+class_binary <- predict(fit_binary, df, type = "class")
 
-Predicted classes:
+head(data.frame(
+  observed = df$high_mpg,
+  prob_yes = round(prob_binary, 3),
+  predicted = class_binary
+))
+#>   observed prob_yes predicted
+#> 1      yes    0.999       yes
+#> 2      yes    0.999       yes
+#> 3      yes    1.000       yes
+#> 4      yes    0.983       yes
+#> 5       no    0.000        no
+#> 6       no    0.008        no
 
-``` r
-head(predict(fit_binary, df, type = "class"))
-#> [1] yes yes yes yes no  yes
-#> Levels: no yes
+table(
+  observed = df$high_mpg,
+  predicted = class_binary
+)
+#>         predicted
+#> observed no yes
+#>      no  17   0
+#>      yes  0  15
 ```
 
 ## Multiclass classification
@@ -202,9 +240,9 @@ model.
 fit_iris <- kaf_fit_formula(
   Species ~ .,
   data = iris,
-  hidden = c(16, 16),
-  num_grids = 8,
-  epochs = 50,
+  hidden = c(32, 32),
+  num_grids = 16,
+  epochs = 300,
   verbose = FALSE,
   seed = 123
 )
@@ -214,36 +252,44 @@ fit_iris
 #> Task:         multiclass
 #> Classes:      setosa, versicolor, virginica
 #> Formula:      Species ~ .
-#> Architecture: 4 -> 16 -> 16 -> 3
-#> Fourier grids: 8 
-#> Epochs:       50
+#> Architecture: 4 -> 32 -> 32 -> 3
+#> Fourier grids: 16 
+#> Epochs:       300
 #> Batch size:   150
 #> Validation:   no
 #> Standardize x: yes 
 #> Standardize y: no 
-#> Final loss:   0.89159
-#> Best loss:    0.89159 at epoch 50
+#> Final train loss: 0.00819381
+#> Best train loss:  0.00819381 at epoch 300
 ```
 
 Class probabilities:
 
 ``` r
-head(predict(fit_iris, iris, type = "prob"))
-#>         setosa versicolor virginica
-#> [1,] 0.4097730  0.3381031 0.2521239
-#> [2,] 0.3848806  0.3663312 0.2487882
-#> [3,] 0.3924690  0.3590669 0.2484642
-#> [4,] 0.3879960  0.3633747 0.2486294
-#> [5,] 0.4149875  0.3291803 0.2558322
-#> [6,] 0.4292243  0.3035112 0.2672646
+head(round(predict(fit_iris, iris, type = "prob"), 3))
+#>      setosa versicolor virginica
+#> [1,]  0.999      0.001     0.000
+#> [2,]  0.995      0.003     0.002
+#> [3,]  0.997      0.001     0.001
+#> [4,]  0.997      0.001     0.001
+#> [5,]  0.999      0.000     0.000
+#> [6,]  1.000      0.000     0.000
 ```
 
 Predicted classes:
 
 ``` r
-head(predict(fit_iris, iris, type = "class"))
-#> [1] setosa setosa setosa setosa setosa setosa
-#> Levels: setosa versicolor virginica
+class_iris <- predict(fit_iris, iris, type = "class")
+
+table(
+  observed = iris$Species,
+  predicted = class_iris
+)
+#>             predicted
+#> observed     setosa versicolor virginica
+#>   setosa         50          0         0
+#>   versicolor      0         50         0
+#>   virginica       0          0        50
 ```
 
 ## Validation and early stopping
@@ -255,37 +301,25 @@ supports validation splits, mini-batching, and early stopping.
 fit_val <- kaf_fit(
   x = x,
   y = y,
-  hidden = c(32, 32),
-  num_grids = 8,
+  hidden = c(64, 64),
+  num_grids = 16,
   use_layernorm = FALSE,
   epochs = 300,
-  batch_size = 32,
+  lr = 5e-4,
+  batch_size = 64,
   validation_split = 0.2,
-  patience = 30,
+  patience = 100,
+  restore_best = TRUE,
   verbose = FALSE,
   seed = 123
 )
 
-fit_val
-#> <kaf_fit>
-#> Task:         regression
-#> Architecture: 1 -> 32 -> 32 -> 1
-#> Fourier grids: 8 
-#> Epochs:       31
-#> Batch size:   32
-#> Validation:   yes
-#> Standardize x: yes 
-#> Standardize y: no 
-#> Stopped at:   31
-#> Final loss:   0.506043
-#> Best loss:    0.734597 at epoch 1
-```
-
-``` r
 plot(fit_val)
 ```
 
-![](reference/figures/README-validation-plot-1.png)
+The fitted object stores both training and validation loss histories, so
+users can inspect them directly through `fit_val$train_loss_history` and
+`fit_val$validation_loss_history`.
 
 ## KAF diagnostics
 
@@ -296,31 +330,25 @@ Fourier branch.
 scales <- extract_kaf_scales(fit)
 head(scales)
 #>   layer feature base_scale fourier_scale fourier_to_base_ratio
-#> 1     1       1  1.0433154  -0.016095886           0.015427632
-#> 2     2       1  0.9902081  -0.001549191           0.001564511
-#> 3     2       2  0.9539226  -0.068281367           0.071579569
-#> 4     2       3  1.0558288  -0.079756819           0.075539536
-#> 5     2       4  1.0121272   0.002981749           0.002946022
-#> 6     2       5  1.0045393  -0.034894414           0.034736735
+#> 1     1       1  1.0369691    0.11137812            0.10740737
+#> 2     2       1  0.9652719    0.15750510            0.16317174
+#> 3     2       2  0.9738784    0.39944243            0.41015638
+#> 4     2       3  0.9945174    0.12360517            0.12428658
+#> 5     2       4  0.9936960    0.08714252            0.08769535
+#> 6     2       5  1.0083405    0.08873361            0.08799965
 ```
 
 ``` r
 fourier_params <- extract_fourier_params(fit, layer = 1)
 head(fourier_params)
-#>   layer input_feature grid      weight      bias
-#> 1     1             1    1 -0.07232932 0.7514821
-#> 2     1             1    2  0.10994870 5.2063313
-#> 3     1             1    3 -0.26950592 2.4094820
-#> 4     1             1    4 -0.18167172 4.1540341
-#> 5     1             1    5 -0.93750620 5.3413358
-#> 6     1             1    6  0.14037049 3.7088466
+#>   layer input_feature grid     weight      bias
+#> 1     1             1    1  0.1379520 4.5462580
+#> 2     1             1    2 -0.1811931 4.3979001
+#> 3     1             1    3 -0.1297648 5.7381864
+#> 4     1             1    4 -0.4164377 2.7132401
+#> 5     1             1    5  0.3679259 0.4899397
+#> 6     1             1    6  0.3606938 2.3420620
 ```
-
-``` r
-plot_kaf_scales(fit, layer = 1, type = "ratio")
-```
-
-![](reference/figures/README-diagnostics-plot-1.png)
 
 ## Low-level torch interface
 

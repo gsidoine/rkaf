@@ -23,7 +23,7 @@ kaf_fit(
   y_val = NULL,
   weight_decay = 0,
   standardize_x = TRUE,
-  standardize_y = FALSE,
+  standardize_y = NULL,
   patience = NULL,
   verbose = TRUE,
   print_every = 100,
@@ -111,9 +111,11 @@ kaf_fit(
 
 - standardize_y:
 
-  Logical. Whether to standardize regression targets using the
-  training-set mean and standard deviation. Predictions are
-  automatically transformed back to the original target scale.
+  Logical or `NULL`. Whether to standardize regression targets using the
+  training-set mean and standard deviation. If `NULL`, targets are
+  standardized for regression and not standardized for classification.
+  Predictions are automatically transformed back to the original target
+  scale.
 
 - patience:
 

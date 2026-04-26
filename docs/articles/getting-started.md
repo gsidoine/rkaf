@@ -62,16 +62,16 @@ fit
 #> Batch size:   128
 #> Validation:   no
 #> Standardize x: yes 
-#> Standardize y: no 
-#> Final loss:   0.551274
-#> Best loss:    0.551274 at epoch 50
+#> Standardize y: yes 
+#> Final train loss: 0.981849
+#> Best train loss:  0.981849 at epoch 50
 ```
 
 ``` r
 pred <- predict(fit, x)
 
 head(pred)
-#> [1] 0.07747863 0.07733496 0.07718754 0.07703653 0.07688214 0.07672451
+#> [1] 0.07719189 0.07700139 0.07680624 0.07660668 0.07640283 0.07619503
 ```
 
 ``` r
@@ -123,14 +123,14 @@ fit_mtcars
 #> Batch size:   32
 #> Validation:   no
 #> Standardize x: yes 
-#> Standardize y: no 
-#> Final loss:   422.885
-#> Best loss:    422.885 at epoch 30
+#> Standardize y: yes 
+#> Final train loss: 0.832897
+#> Best train loss:  0.832897 at epoch 30
 ```
 
 ``` r
 head(predict(fit_mtcars, mtcars))
-#> [1] 0.3809827 0.3811775 0.3737252 0.3816426 0.4597940 0.3825346
+#> [1] 20.62060 20.61375 20.68641 20.59250 19.73459 20.56964
 ```
 
 ## Binary classification
@@ -170,8 +170,8 @@ fit_binary
 #> Validation:   no
 #> Standardize x: yes 
 #> Standardize y: no 
-#> Final loss:   0.65599
-#> Best loss:    0.65599 at epoch 30
+#> Final train loss: 0.65599
+#> Best train loss:  0.65599 at epoch 30
 ```
 
 Predicted probabilities:
@@ -224,8 +224,8 @@ fit_iris
 #> Validation:   no
 #> Standardize x: yes 
 #> Standardize y: no 
-#> Final loss:   1.02193
-#> Best loss:    1.02193 at epoch 30
+#> Final train loss: 1.02193
+#> Best train loss:  1.02193 at epoch 30
 ```
 
 Class probabilities:
@@ -278,10 +278,11 @@ fit_val
 #> Batch size:   32
 #> Validation:   yes
 #> Standardize x: yes 
-#> Standardize y: no 
+#> Standardize y: yes 
 #> Stopped at:   21
-#> Final loss:   0.462971
-#> Best loss:    0.734597 at epoch 1
+#> Final train loss: 0.894624
+#> Final val loss:   1.48591
+#> Best val loss:    1.42138 at epoch 1
 ```
 
 ``` r
@@ -301,12 +302,12 @@ scales <- extract_kaf_scales(fit)
 
 head(scales)
 #>   layer feature base_scale fourier_scale fourier_to_base_ratio
-#> 1     1       1  1.0166992  0.0102793416          0.0101105042
-#> 2     2       1  0.9869720 -0.0062871226          0.0063701125
-#> 3     2       2  0.9776204 -0.0185113791          0.0189351394
-#> 4     2       3  1.0219407 -0.0057307566          0.0056077192
-#> 5     2       4  1.0092107  0.0017849839          0.0017686930
-#> 6     2       5  1.0069300 -0.0009620219          0.0009554009
+#> 1     1       1  1.0173913  -0.008787700           0.008637483
+#> 2     2       1  0.9849479  -0.010341251           0.010499288
+#> 3     2       2  0.9696339  -0.028413489           0.029303317
+#> 4     2       3  1.0247674  -0.017318670           0.016900098
+#> 5     2       4  1.0113312   0.004214898           0.004167673
+#> 6     2       5  1.0026169  -0.003627075           0.003617608
 ```
 
 ``` r
@@ -314,12 +315,12 @@ fourier_params <- extract_fourier_params(fit, layer = 1)
 
 head(fourier_params)
 #>   layer input_feature grid      weight      bias
-#> 1     1             1    1 -0.09397911 0.7445387
-#> 2     1             1    2  0.08930250 5.1982489
-#> 3     1             1    3 -0.25914380 2.4016564
-#> 4     1             1    4 -0.20197357 4.1483722
-#> 5     1             1    5 -0.93132102 5.3289428
-#> 6     1             1    6  0.14571047 3.7227020
+#> 1     1             1    1 -0.07766961 0.7399583
+#> 2     1             1    2  0.10472531 5.1941872
+#> 3     1             1    3 -0.27864590 2.4154718
+#> 4     1             1    4 -0.18300362 4.1428008
+#> 5     1             1    5 -0.94035536 5.3409934
+#> 6     1             1    6  0.14795038 3.7189765
 ```
 
 ``` r

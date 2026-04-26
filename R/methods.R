@@ -38,16 +38,38 @@ print.kaf_fit <- function(x, ...) {
   if (!is.null(x$stopped_epoch) && !is.na(x$stopped_epoch)) {
     cat("Stopped at:   ", x$stopped_epoch, "\n", sep = "")
   }
+  final_train_loss <- x$train_loss_history[[length(x$train_loss_history)]]
+
   cat(
-    "Final loss:   ",
-    format(x$loss_history[[length(x$loss_history)]], digits = 6),
+    "Final train loss: ",
+    format(final_train_loss, digits = 6),
     "\n",
     sep = ""
   )
 
-  if (!is.null(x$best_loss)) {
+  has_validation <- !is.null(x$validation_loss_history) &&
+    any(!is.na(x$validation_loss_history))
+
+  if (has_validation) {
+    final_val_loss <- utils::tail(stats::na.omit(x$validation_loss_history), 1)
+
     cat(
-      "Best loss:    ",
+      "Final val loss:   ",
+      format(final_val_loss, digits = 6),
+      "\n",
+      sep = ""
+    )
+  }
+
+  if (!is.null(x$best_loss)) {
+    best_label <- if (has_validation) {
+      "Best val loss:    "
+    } else {
+      "Best train loss:  "
+    }
+
+    cat(
+      best_label,
       format(x$best_loss, digits = 6),
       " at epoch ",
       x$best_epoch,
@@ -85,7 +107,7 @@ plot.kaf_fit <- function(x,
       x$train_loss_history,
       type = "l",
       xlab = "Epoch",
-      ylab = "MSE",
+      ylab = if (isTRUE(x$standardize_y)) "MSE on standardized target" else "MSE",
       main = "KAF training loss",
       ...
     )

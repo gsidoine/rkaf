@@ -360,9 +360,11 @@ slice_kaf_target <- function(y_tensor, idx, task) {
 #' @param weight_decay Numeric. Adam weight decay.
 #' @param standardize_x Logical. Whether to standardize predictors using the
 #'   training-set mean and standard deviation.
-#' @param standardize_y Logical. Whether to standardize regression targets using
-#'   the training-set mean and standard deviation. Predictions are automatically
-#'   transformed back to the original target scale.
+#' @param standardize_y Logical or `NULL`. Whether to standardize regression
+#'   targets using the training-set mean and standard deviation. If `NULL`,
+#'   targets are standardized for regression and not standardized for
+#'   classification. Predictions are automatically transformed back to the
+#'   original target scale.
 #' @param patience Optional integer. Number of epochs without improvement before
 #'   early stopping.
 #' @param verbose Logical. Whether to print progress.
@@ -393,7 +395,7 @@ kaf_fit <- function(x,
                     y_val = NULL,
                     weight_decay = 0,
                     standardize_x = TRUE,
-                    standardize_y = FALSE,
+                    standardize_y = NULL,
                     patience = NULL,
                     verbose = TRUE,
                     print_every = 100,
@@ -427,6 +429,10 @@ kaf_fit <- function(x,
   }
 
   task <- infer_kaf_task(y, task)
+
+  if (is.null(standardize_y)) {
+    standardize_y <- task == "regression"
+  }
 
   if (task != "regression" && isTRUE(standardize_y)) {
     stop("`standardize_y = TRUE` is only supported for regression.",

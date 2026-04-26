@@ -22,7 +22,7 @@ kaf_fit(
   y_val = NULL,
   weight_decay = 0,
   standardize_x = TRUE,
-  standardize_y = FALSE,
+  standardize_y = NULL,
   patience = NULL,
   verbose = TRUE,
   print_every = 100,
@@ -71,9 +71,11 @@ validation. Ignored if \code{x_val} and \code{y_val} are supplied.}
 \item{standardize_x}{Logical. Whether to standardize predictors using the
 training-set mean and standard deviation.}
 
-\item{standardize_y}{Logical. Whether to standardize regression targets using
-the training-set mean and standard deviation. Predictions are automatically
-transformed back to the original target scale.}
+\item{standardize_y}{Logical or \code{NULL}. Whether to standardize regression
+targets using the training-set mean and standard deviation. If \code{NULL},
+targets are standardized for regression and not standardized for
+classification. Predictions are automatically transformed back to the
+original target scale.}
 
 \item{patience}{Optional integer. Number of epochs without improvement before
 early stopping.}

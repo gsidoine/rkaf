@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rkaf</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,7 @@
 <span>  y_val <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  weight_decay <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  standardize_x <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  standardize_y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  standardize_y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  patience <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  print_every <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -147,9 +147,11 @@ training-set mean and standard deviation.</p></dd>
 
 
 <dt id="arg-standardize-y">standardize_y<a class="anchor" aria-label="anchor" href="#arg-standardize-y"></a></dt>
-<dd><p>Logical. Whether to standardize regression targets using
-the training-set mean and standard deviation. Predictions are automatically
-transformed back to the original target scale.</p></dd>
+<dd><p>Logical or <code>NULL</code>. Whether to standardize regression
+targets using the training-set mean and standard deviation. If <code>NULL</code>,
+targets are standardized for regression and not standardized for
+classification. Predictions are automatically transformed back to the
+original target scale.</p></dd>
 
 
 <dt id="arg-patience">patience<a class="anchor" aria-label="anchor" href="#arg-patience"></a></dt>
